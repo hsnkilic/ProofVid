@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProofVid - Video Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .verification-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-label {
+            display: block;
+            padding: 15px 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+
+        .file-label:hover {
+            background: #5568d3;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result.success {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            border: 2px solid #17a2b8;
+            color: #0c5460;
+        }
+
+        .result-title {
+            font-weight: 600;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .result-details {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .result-details strong {
+            display: inline-block;
+            min-width: 120px;
+        }
+
+        .hash-display {
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .stats {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+
+        .divider {
+            margin: 30px 0;
+            border-top: 2px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 ProofVid</h1>
+        <p class="subtitle">Verify Video Authenticity</p>
+
+        <!-- Verify by File -->
+        <div class="verification-section">
+            <h2 class="section-title">Verify Video File</h2>
+            <div class="file-input-wrapper">
+                <input type="file" id="videoFile" accept="video/*">
+                <label for="videoFile" class="file-label">Choose Video File</label>
+                <div class="file-name" id="fileName"></div>
+            </div>
+            <button id="verifyFileBtn" disabled>Verify Video</button>
+            <div class="loading" id="fileLoading">Calculating hash...</div>
+            <div class="result" id="fileResult"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Verify by Hash -->
+        <div class="verification-section">
+            <h2 class="section-title">Verify by Hash</h2>
+            <input type="text" id="hashInput" placeholder="Enter SHA-256 hash">
+            <button id="verifyHashBtn">Verify Hash</button>
+            <div class="loading" id="hashLoading">Verifying...</div>
+            <div class="result" id="hashResult"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Verify by Certificate ID -->
+        <div class="verification-section">
+            <h2 class="section-title">Verify by Certificate ID</h2>
+            <input type="text" id="certInput" placeholder="Enter Certificate ID">
+            <button id="verifyCertBtn">Verify Certificate</button>
+            <div class="loading" id="certLoading">Verifying...</div>
+            <div class="result" id="certResult"></div>
+        </div>
+
+        <div class="stats" id="stats">Loading statistics...</div>
+    </div>
+
+    <script>
+        const API_URL = window.location.origin;
+        let selectedFile = null;
+
+        // File selection
+        document.getElementById('videoFile').addEventListener('change', function(e) {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                document.getElementById('fileName').textContent = selectedFile.name;
+                document.getElementById('verifyFileBtn').disabled = false;
+            }
+        });
+
+        // Calculate SHA-256 hash of file
+        async function calculateHash(file) {
+            const buffer = await file.arrayBuffer();
+            const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // Verify video file
+        document.getElementById('verifyFileBtn').addEventListener('click', async function() {
+            if (!selectedFile) return;
+
+            const loading = document.getElementById('fileLoading');
+            const result = document.getElementById('fileResult');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                const hash = await calculateHash(selectedFile);
+                const response = await fetch(`${API_URL}/api/verify/${hash}`);
+                const data = await response.json();
+
+                loading.style.display = 'none';
+                result.style.display = 'block';
+
+                if (data.verified) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <div class="result-title">✅ Video Verified!</div>
+                        <div class="result-details">
+                            <p><strong>Certificate ID:</strong> ${data.certificate_id}</p>
+                            <p><strong>Registered:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+                            <p><strong>Hash:</strong></p>
+                            <div class="hash-display">${data.hash}</div>
+                            ${data.device_info ? `<p><strong>Device:</strong> ${data.device_info}</p>` : ''}
+                            ${data.location ? `<p><strong>Location:</strong> ${data.location}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    result.className = 'result error';
+                    result.innerHTML = `
+                        <div class="result-title">❌ Video Not Verified</div>
+                        <div class="result-details">
+                            <p>This video has not been registered in the ProofVid system.</p>
+                            <p><strong>Hash:</strong></p>
+                            <div class="hash-display">${hash}</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                result.style.display = 'block';
+                result.className = 'result error';
+                result.innerHTML = `
+                    <div class="result-title">Error</div>
+                    <div class="result-details">${error.message}</div>
+                `;
+            }
+        });
+
+        // Verify by hash
+        document.getElementById('verifyHashBtn').addEventListener('click', async function() {
+            const hash = document.getElementById('hashInput').value.trim();
+            if (!hash) return;
+
+            const loading = document.getElementById('hashLoading');
+            const result = document.getElementById('hashResult');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/api/verify/${hash}`);
+                const data = await response.json();
+
+                loading.style.display = 'none';
+                result.style.display = 'block';
+
+                if (data.verified) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <div class="result-title">✅ Hash Verified!</div>
+                        <div class="result-details">
+                            <p><strong>Certificate ID:</strong> ${data.certificate_id}</p>
+                            <p><strong>Registered:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+                            ${data.device_info ? `<p><strong>Device:</strong> ${data.device_info}</p>` : ''}
+                            ${data.location ? `<p><strong>Location:</strong> ${data.location}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    result.className = 'result error';
+                    result.innerHTML = `
+                        <div class="result-title">❌ Hash Not Found</div>
+                        <div class="result-details">
+                            <p>This hash has not been registered in the ProofVid system.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                result.style.display = 'block';
+                result.className = 'result error';
+                result.innerHTML = `
+                    <div class="result-title">Error</div>
+                    <div class="result-details">${error.message}</div>
+                `;
+            }
+        });
+
+        // Verify by certificate ID
+        document.getElementById('verifyCertBtn').addEventListener('click', async function() {
+            const certId = document.getElementById('certInput').value.trim();
+            if (!certId) return;
+
+            const loading = document.getElementById('certLoading');
+            const result = document.getElementById('certResult');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/api/certificate/${certId}`);
+                const data = await response.json();
+
+                loading.style.display = 'none';
+                result.style.display = 'block';
+
+                if (data.found) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <div class="result-title">✅ Certificate Found!</div>
+                        <div class="result-details">
+                            <p><strong>Registered:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+                            <p><strong>Hash:</strong></p>
+                            <div class="hash-display">${data.hash}</div>
+                            ${data.device_info ? `<p><strong>Device:</strong> ${data.device_info}</p>` : ''}
+                            ${data.location ? `<p><strong>Location:</strong> ${data.location}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    result.className = 'result error';
+                    result.innerHTML = `
+                        <div class="result-title">❌ Certificate Not Found</div>
+                        <div class="result-details">
+                            <p>No certificate found with this ID.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                result.style.display = 'block';
+                result.className = 'result error';
+                result.innerHTML = `
+                    <div class="result-title">Error</div>
+                    <div class="result-details">${error.message}</div>
+                `;
+            }
+        });
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_URL}/api/stats`);
+                const data = await response.json();
+                document.getElementById('stats').textContent = 
+                    `Total Verified Videos: ${data.total_certificates}`;
+            } catch (error) {
+                document.getElementById('stats').textContent = 'Statistics unavailable';
+            }
+        }
+
+        loadStats();
+    </script>
+</body>
+</html>
