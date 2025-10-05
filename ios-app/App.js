@@ -10,43 +10,40 @@ import {
   Platform,
 } from 'react-native';
 import {StatusBar} from 'expo-status-bar';
-import {Camera} from 'expo-camera';
-import {Audio} from 'expo-av';
-import * as FileSystem from 'expo-file-system';
+import {CameraView, useCameraPermissions, useMicrophonePermissions} from 'expo-camera';
+import * as FileSystem from 'expo-file-system/legacy';
 import * as DocumentPicker from 'expo-document-picker';
 import * as Crypto from 'expo-crypto';
 import axios from 'axios';
 
-// IMPORTANT: Replace with your server's IP address
-const API_URL = 'http://YOUR_SERVER_IP:5000';
+// API URL from environment variables
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5050';
 
 const App = () => {
-  const [hasPermission, setHasPermission] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
+  const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
   const [isRecording, setIsRecording] = useState(false);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const [cameraFacing, setCameraFacing] = useState('back');
   const [certificate, setCertificate] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
+  const [toastMessage, setToastMessage] = useState('');
 
   const cameraRef = useRef(null);
   const recordingInterval = useRef(null);
+  const toastTimeout = useRef(null);
 
   useEffect(() => {
-    checkPermissions();
+    if (!permission?.granted) {
+      requestPermission();
+    }
+    if (!audioPermission?.granted) {
+      requestAudioPermission();
+    }
   }, []);
 
-  const checkPermissions = async () => {
-    const {status: cameraStatus} = await Camera.requestCameraPermissionsAsync();
-    const {status: audioStatus} = await Audio.requestPermissionsAsync();
-    setHasPermission(cameraStatus === 'granted' && audioStatus === 'granted');
-  };
-
   const toggleCamera = () => {
-    setCameraType(
-      cameraType === Camera.Constants.Type.back
-        ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back,
-    );
+    setCameraFacing(current => (current === 'back' ? 'front' : 'back'));
   };
 
   const startRecording = async () => {
@@ -61,7 +58,6 @@ const App = () => {
         }, 1000);
 
         const video = await cameraRef.current.recordAsync({
-          quality: Camera.Constants.VideoQuality['720p'],
           maxDuration: 300, // 5 minutes max
         });
 
@@ -113,7 +109,7 @@ const App = () => {
       const hash = await Crypto.digestStringAsync(
         Crypto.CryptoDigestAlgorithm.SHA256,
         await FileSystem.readAsStringAsync(fileUri, {
-          encoding: FileSystem.EncodingType.Base64,
+          encoding: 'base64',
         }),
         {encoding: Crypto.CryptoEncoding.HEX},
       );
@@ -124,13 +120,23 @@ const App = () => {
     }
   };
 
+  const showToast = (message) => {
+    setToastMessage(message);
+    if (toastTimeout.current) {
+      clearTimeout(toastTimeout.current);
+    }
+    toastTimeout.current = setTimeout(() => {
+      setToastMessage('');
+    }, 3000);
+  };
+
   const processVideo = async videoPath => {
     setIsProcessing(true);
     setCertificate(null);
 
     try {
       // Calculate SHA-256 hash locally
-      Alert.alert('Processing', 'Calculating video hash...');
+      showToast('Calculating video hash...');
       const videoHash = await calculateSHA256(videoPath);
 
       // Get device info
@@ -178,13 +184,24 @@ const App = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (!hasPermission) {
+  if (!permission || !audioPermission) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#667eea" />
+      </View>
+    );
+  }
+
+  if (!permission.granted || !audioPermission.granted) {
     return (
       <View style={styles.container}>
         <Text style={styles.permissionText}>
           Camera and microphone permissions are required
         </Text>
-        <TouchableOpacity style={styles.button} onPress={checkPermissions}>
+        <TouchableOpacity style={styles.button} onPress={() => {
+          requestPermission();
+          requestAudioPermission();
+        }}>
           <Text style={styles.buttonText}>Grant Permissions</Text>
         </TouchableOpacity>
       </View>
@@ -200,11 +217,11 @@ const App = () => {
       </View>
 
       <View style={styles.cameraContainer}>
-        <Camera
+        <CameraView
           ref={cameraRef}
           style={styles.camera}
-          type={cameraType}
-          ratio="16:9"
+          facing={cameraFacing}
+          mode="video"
         />
         
         {isRecording && (
@@ -286,6 +303,12 @@ const App = () => {
           </Text>
         </View>
       </ScrollView>
+
+      {toastMessage !== '' && (
+        <View style={styles.toastContainer}>
+          <Text style={styles.toastText}>{toastMessage}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -479,6 +502,31 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  toastContainer: {
+    position: 'absolute',
+    bottom: 100,
+    left: 20,
+    right: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  toastText: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });
 

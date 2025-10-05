@@ -75,11 +75,20 @@ windsurf-project/
    npm install
    ```
 
-4. **Update server URL**:
-   - Open `App.js`
-   - Find the line: `const API_URL = 'http://YOUR_SERVER_IP:5000';`
+4. **Configure environment variables**:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Then edit `.env` and update the API URL:
+   ```
+   EXPO_PUBLIC_API_URL=http://YOUR_SERVER_IP:5050
+   ```
+   
    - Replace `YOUR_SERVER_IP` with your computer's local IP address
    - To find your IP on Mac: `ifconfig | grep "inet " | grep -v 127.0.0.1`
+   - To find your IP on Windows: `ipconfig`
+   - Example: `EXPO_PUBLIC_API_URL=http://192.168.1.100:5050`
 
 5. **Start Expo development server**:
    ```bash

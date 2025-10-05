@@ -32,9 +32,16 @@ Look for "IPv4 Address" (e.g., `192.168.1.100`)
 
 ## Step 3: Configure the iOS App
 
-1. Open `ios-app/App.js`
-2. Find line 21: `const API_URL = 'http://YOUR_SERVER_IP:5000';`
-3. Replace `YOUR_SERVER_IP` with your IP (e.g., `http://192.168.1.100:5000`)
+1. Navigate to the `ios-app` directory
+2. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+3. Open `.env` and update the API URL:
+   ```
+   EXPO_PUBLIC_API_URL=http://192.168.1.100:5050
+   ```
+   Replace `192.168.1.100` with your IP from Step 2
 
 ## Step 4: Install Expo Go on iPhone
 
@@ -78,7 +85,8 @@ A QR code will appear in the terminal.
 ### "Cannot connect to server"
 - Make sure backend is running (`python app.py`)
 - Verify iPhone and computer are on same WiFi
-- Check IP address in `App.js` is correct
+- Check IP address in `.env` file is correct
+- Make sure the port matches (5050 by default)
 
 ### "Camera not working"
 - Grant camera/microphone permissions
