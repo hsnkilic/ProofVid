@@ -46,7 +46,12 @@ ProofVid/
       <sub><em>My Recordings tab</em></sub>
     </td>
   </tr>
-  
+  <tr>
+    <td align="center" colspan="2">
+      <img src="docs/images/proofvid-webui.png" width="360" alt="ProofVid Web UI (verify content authenticity)" /><br/>
+      <sub><em>ProofVid Web UI (verify content authenticity)</em></sub>
+    </td>
+  </tr>
 </table>
 
 ## 🚀 Setup Instructions
