@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {CameraView, useCameraPermissions, useMicrophonePermissions} from 'expo-camera';
 import * as FileSystem from 'expo-file-system/legacy';
-import * as DocumentPicker from 'expo-document-picker';
 import * as MediaLibrary from 'expo-media-library';
 import * as Crypto from 'expo-crypto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -198,22 +197,6 @@ const CameraScreen = ({navigation}) => {
     }
   };
 
-  const selectVideo = async () => {
-    try {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: 'video/*',
-        copyToCacheDirectory: true,
-      });
-
-      if (!result.canceled && result.assets && result.assets[0]) {
-        await processVideo(result.assets[0].uri);
-      }
-    } catch (err) {
-      console.error('Error selecting video:', err);
-      Alert.alert('Error', 'Failed to select video');
-    }
-  };
-
   const formatTime = seconds => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -264,13 +247,6 @@ const CameraScreen = ({navigation}) => {
 
         <View style={styles.cameraControls}>
           <TouchableOpacity
-            style={styles.smallButton}
-            onPress={toggleCamera}
-            disabled={isRecording}>
-            <Text style={styles.smallButtonText}>🔄</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
             style={[
               styles.recordButton,
               isRecording && styles.recordButtonActive,
@@ -286,10 +262,10 @@ const CameraScreen = ({navigation}) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.smallButton}
-            onPress={selectVideo}
-            disabled={isRecording || isProcessing}>
-            <Text style={styles.smallButtonText}>📁</Text>
+            style={[styles.smallButton, styles.switchButton]}
+            onPress={toggleCamera}
+            disabled={isRecording}>
+            <Text style={styles.smallButtonText}>🔄</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -326,12 +302,12 @@ const CameraScreen = ({navigation}) => {
         <View style={styles.instructions}>
           <Text style={styles.instructionsTitle}>How it works:</Text>
           <Text style={styles.instructionsText}>
-            1. Record a video or select from library{'\n'}
-            2. SHA-256 hash is calculated locally{'\n'}
-            3. Only the hash is sent to the server{'\n'}
-            4. You receive a certificate of authenticity{'\n'}
-            5. Video is saved to your library{'\n'}
-            6. View all recordings in the Recordings tab
+            1. Record a video using the in-app camera{'\n'}
+            2. A SHA-256 hash is calculated locally on your device{'\n'}
+            3. Only the hash (and minimal device metadata) is sent to the server{'\n'}
+            4. You receive a certificate of authenticity for the recording{'\n'}
+            5. The video is saved to your device library{'\n'}
+            6. View all authenticated recordings in the Recordings tab
           </Text>
         </View>
       </ScrollView>
@@ -387,7 +363,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 40,
   },
@@ -425,6 +401,10 @@ const styles = StyleSheet.create({
   },
   smallButtonText: {
     fontSize: 24,
+  },
+  switchButton: {
+    position: 'absolute',
+    right: 40,
   },
   infoContainer: {
     flex: 1,

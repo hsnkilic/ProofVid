@@ -38,7 +38,7 @@ ProofVid/
 <table>
   <tr>
     <td align="center">
-      <img src="docs/images/IMG_4143.PNG" width="240" alt="Recording screen" /><br/>
+      <img src="docs/images/IMG_4148.PNG" width="240" alt="Recording screen" /><br/>
       <sub><em>Recording screen</em></sub>
     </td>
     <td align="center">
