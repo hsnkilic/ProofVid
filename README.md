@@ -314,7 +314,7 @@ This is a proof-of-concept application. For production use, consider:
 ### Security and Authenticity
 
 - To strengthen trust, consider:
-  - Hardware-backed attestation and signing (iOS App Attest/Secure Enclave; Android Play Integrity/Key attestation - this is for future development as Android is not supported yet).
+  - Hardware-backed attestation and signing (iOS App Attest/Secure Enclave; Android Play Integrity/Key attestation - this is xfor future development as Android is not supported yet).
   - Challenge–response with short-lived nonces signed by the device key alongside the video hash.
   - Blocking rooted/jailbroken/emulator devices; enable TLS pinning and anti-tamper checks.
 

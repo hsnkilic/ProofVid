@@ -4,6 +4,10 @@ React Native app built with Expo for recording and authenticating videos.
 
 ## Setup
 
+<p style="color:#d32f2f; margin-top: 8px;">
+  <strong>Important:</strong> Please make sure to read the <a href="#disclaimer">Disclaimer</a> before using this app.
+</p>
+
 1. **Install dependencies**:
    ```bash
    npm install
@@ -28,16 +32,14 @@ React Native app built with Expo for recording and authenticating videos.
 
 ## Features
 
-- 📹 Record videos with front/back camera
-- 📁 Select videos from library
-- 🔐 Calculate SHA-256 hash locally on device
-- 📜 Receive certificate of authenticity
-- ⏱️ Recording timer
-- 🎨 Beautiful UI
+- **Privacy-First**: Videos never leave your device - only the hash is transmitted
+- **Local Hash Calculation**: SHA-256 hash computed on the iPhone
+- **Certificate Generation**: Unique certificate ID for each registered video
+- **Web Verification**: Anyone can verify a video's authenticity via the web interface
+- **Multiple Verification Methods**: Verify by video file, hash, or certificate ID
+- **Timestamp Tracking**: Records when each video was authenticated
+- **Device Information**: Tracks which device registered the video
 
-<p style="color:#d32f2f; margin-top: 8px;">
-  <strong>Important:</strong> Please make sure to read the <a href="#disclaimer">Disclaimer</a> before using this app.
-</p>
 
 ## How to Find Your Server IP
 
