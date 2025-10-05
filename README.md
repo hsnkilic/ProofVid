@@ -12,6 +12,10 @@ ProofVid is a complete video authentication system that allows users to record v
 - **Timestamp Tracking**: Records when each video was authenticated
 - **Device Information**: Tracks which device registered the video
 
+<p style="color:#d32f2f; margin-top: 8px;">
+  <strong>Important:</strong> Please make sure to read the <a href="#disclaimer">Disclaimer</a> before using this project.
+</p>
+
 ## 📁 Project Structure
 
 ```
@@ -295,6 +299,7 @@ This project is open source and available for educational purposes.
 
 Contributions are welcome! Please feel free to submit issues or pull requests.
 
+<a id="disclaimer"></a>
 ## ⚠️ Disclaimer
 
 This is a proof-of-concept application. For production use, consider:

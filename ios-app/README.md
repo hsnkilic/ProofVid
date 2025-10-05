@@ -35,6 +35,10 @@ React Native app built with Expo for recording and authenticating videos.
 - ⏱️ Recording timer
 - 🎨 Beautiful UI
 
+<p style="color:#d32f2f; margin-top: 8px;">
+  <strong>Important:</strong> Please make sure to read the <a href="#disclaimer">Disclaimer</a> before using this app.
+</p>
+
 ## How to Find Your Server IP
 
 **On Mac**:
@@ -65,3 +69,12 @@ Look for "IPv4 Address"
 **Hash calculation failing?**
 - Large videos may take time to process
 - Check console logs for errors
+
+<a id="disclaimer"></a>
+## ⚠️ Disclaimer
+
+This iOS app is part of the ProofVid proof-of-concept. For production usage, you should:
+- Use HTTPS and secure API keys
+- Implement authentication and rate limiting
+- Consider a production database and monitoring/logging
+- Validate inputs server-side and handle errors robustly
