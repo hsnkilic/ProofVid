@@ -15,7 +15,7 @@ ProofVid is a complete video authentication system that allows users to record v
 ## 📁 Project Structure
 
 ```
-windsurf-project/
+ProofVid/
 ├── backend/                 # Flask server
 │   ├── app.py              # Main server application
 │   ├── requirements.txt    # Python dependencies
@@ -28,6 +28,16 @@ windsurf-project/
     ├── package.json        # Node dependencies
     └── ...
 ```
+
+### 📸 Screenshots
+
+Recording screen:
+
+![Recording screen](docs/images/IMG_4143.PNG)
+
+My Recordings tab:
+
+![My Recordings](docs/images/IMG_4142.PNG)
 
 ## 🚀 Setup Instructions
 
@@ -54,10 +64,10 @@ windsurf-project/
    python app.py
    ```
 
-   The server will start on `http://0.0.0.0:5000`
+   The server will start on `http://0.0.0.0:5050`
 
 5. **Access the web interface**:
-   Open your browser and go to `http://localhost:5000`
+   Open your browser and go to `http://localhost:5050`
 
 ### iOS App Setup
 

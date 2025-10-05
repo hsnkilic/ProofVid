@@ -12,7 +12,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-The server will start at `http://localhost:5000`
+The server will start at `http://localhost:5050`
 
 ## Step 2: Find Your Computer's IP Address
 
@@ -74,7 +74,7 @@ A QR code will appear in the terminal.
 
 ## Step 8: Verify on the Website
 
-1. Open `http://localhost:5000` in your browser
+1. Open `http://localhost:5050` in your browser
 2. Upload the same video or enter the hash/certificate ID
 3. See the verification result!
 

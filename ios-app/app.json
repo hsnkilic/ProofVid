@@ -19,7 +19,9 @@
       "bundleIdentifier": "com.proofvid.app",
       "infoPlist": {
         "NSCameraUsageDescription": "ProofVid needs access to your camera to record videos for authentication.",
-        "NSMicrophoneUsageDescription": "ProofVid needs access to your microphone to record audio with videos."
+        "NSMicrophoneUsageDescription": "ProofVid needs access to your microphone to record audio with videos.",
+        "NSPhotoLibraryUsageDescription": "ProofVid needs access to your photo library to save authenticated videos.",
+        "NSPhotoLibraryAddUsageDescription": "ProofVid needs permission to save authenticated videos to your photo library."
       }
     },
     "android": {
@@ -30,7 +32,9 @@
       "package": "com.proofvid.app",
       "permissions": [
         "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
       ]
     },
     "web": {

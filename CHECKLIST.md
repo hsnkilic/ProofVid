@@ -9,7 +9,7 @@ Follow these steps in order to get ProofVid running:
 - [ ] Activate virtual environment: `source venv/bin/activate`
 - [ ] Install dependencies: `pip install -r requirements.txt`
 - [ ] Start server: `python app.py`
-- [ ] Verify server is running at `http://localhost:5000`
+- [ ] Verify server is running at `http://localhost:5050`
 
 ## Network Configuration
 
@@ -21,7 +21,7 @@ Follow these steps in order to get ProofVid running:
 ## iOS App Configuration
 
 - [ ] Open `ios-app/App.js` in editor
-- [ ] Find line 21: `const API_URL = 'http://YOUR_SERVER_IP:5000';`
+- [ ] Find line 21: `const API_URL = 'http://YOUR_SERVER_IP:5050';`
 - [ ] Replace `YOUR_SERVER_IP` with your actual IP
 - [ ] Save the file
 
@@ -56,7 +56,7 @@ Follow these steps in order to get ProofVid running:
 ## Verify on Web
 
 - [ ] Open browser on computer
-- [ ] Go to `http://localhost:5000`
+- [ ] Go to `http://localhost:5050`
 - [ ] Try "Verify by Certificate ID"
 - [ ] Enter the certificate ID from app
 - [ ] See verification success! ✅
