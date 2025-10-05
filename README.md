@@ -38,17 +38,15 @@ ProofVid/
 <table>
   <tr>
     <td align="center">
-      <img src="docs/images/IMG_4143.PNG" width="360" alt="Recording screen" /><br/>
+      <img src="docs/images/IMG_4143.PNG" width="240" alt="Recording screen" /><br/>
       <sub><em>Recording screen</em></sub>
     </td>
     <td align="center">
-      <img src="docs/images/IMG_4142.PNG" width="360" alt="My Recordings tab" /><br/>
+      <img src="docs/images/IMG_4142.PNG" width="240" alt="My Recordings tab" /><br/>
       <sub><em>My Recordings tab</em></sub>
     </td>
-  </tr>
-  <tr>
-    <td align="center" colspan="2">
-      <img src="docs/images/proofvid-webui.png" width="360" alt="ProofVid Web UI (verify content authenticity)" /><br/>
+    <td align="center">
+      <img src="docs/images/proofvid-webui.png" width="240" alt="ProofVid Web UI (verify content authenticity)" /><br/>
       <sub><em>ProofVid Web UI (verify content authenticity)</em></sub>
     </td>
   </tr>
