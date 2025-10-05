@@ -283,7 +283,7 @@ CREATE TABLE certificates (
 ```
 
 ## 🚧 Future Enhancements
-
+- [ ] Support for photos
 - [ ] Blockchain integration for immutable certificate storage
 - [ ] GPS location tracking (with user permission)
 - [ ] Batch verification of multiple videos
