@@ -61,7 +61,7 @@ ProofVid/
    cd backend
    ```
 
-2. **Create a virtual environment** (recommended):
+2. **Create a virtual environment** (optional, if needed):
    ```bash
    python3 -m venv venv
    source venv/bin/activate  # On Mac/Linux
