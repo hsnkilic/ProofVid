@@ -73,8 +73,19 @@ Look for "IPv4 Address"
 <a id="disclaimer"></a>
 ## ⚠️ Disclaimer
 
-This iOS app is part of the ProofVid proof-of-concept. For production usage, you should:
-- Use HTTPS and secure API keys
-- Implement authentication and rate limiting
-- Consider a production database and monitoring/logging
-- Validate inputs server-side and handle errors robustly
+This is a proof-of-concept application. For production use, consider:
+- Allowing the app to only create videos on non-rooted (secure) devices
+- Using HTTPS for all communications
+- Implementing user authentication
+- Adding rate limiting to prevent abuse
+- Using a production-grade database (PostgreSQL, MySQL)
+- Implementing proper error handling and logging
+- Adding backup and recovery mechanisms
+
+### Security and Authenticity
+
+- To strengthen trust, consider:
+  - Hardware-backed attestation and signing (iOS App Attest/Secure Enclave; Android Play Integrity/Key attestation - for future development as Android is not supported yet).
+  - Challenge–response with short-lived nonces signed by the device key alongside the video hash.
+  - Blocking rooted/jailbroken/emulator devices; enable TLS pinning and anti-tamper checks.
+
