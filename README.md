@@ -31,13 +31,19 @@ ProofVid/
 
 ### 📸 Screenshots
 
-Recording screen:
-
-![Recording screen](docs/images/IMG_4143.PNG)
-
-My Recordings tab:
-
-![My Recordings](docs/images/IMG_4142.PNG)
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/images/IMG_4143.PNG" width="360" alt="Recording screen" /><br/>
+      <sub><em>Recording screen</em></sub>
+    </td>
+    <td align="center">
+      <img src="docs/images/IMG_4142.PNG" width="360" alt="My Recordings tab" /><br/>
+      <sub><em>My Recordings tab</em></sub>
+    </td>
+  </tr>
+  
+</table>
 
 ## 🚀 Setup Instructions
 

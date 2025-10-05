@@ -11,7 +11,7 @@ React Native app built with Expo for recording and authenticating videos.
 
 2. **Update server URL**:
    - Open `App.js`
-   - Find: `const API_URL = 'http://YOUR_SERVER_IP:5000';`
+   - Find: `const API_URL = 'http://YOUR_SERVER_IP:5050';`
    - Replace `YOUR_SERVER_IP` with your computer's local IP address
 
 3. **Install Expo Go on your iPhone**:
